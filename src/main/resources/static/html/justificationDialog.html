@@ -1,0 +1,36 @@
+<md-dialog aria-label="Justification Dialog">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Opravdanje</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="column" flex>
+                <md-input-container>
+                    <label>Razlog izostanka</label>
+                    <md-select ng-model="newJustification.justificationType">
+                        <md-option ng-repeat="justificationType in justificationTypes" ng-value="justificationType.type">
+                            {{justificationType.text}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Dodatne napomene</label>
+                    <textarea ng-model="newJustification.additionalNotes" md-maxlength="150" rows="5"></textarea>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-primary md-raised" ng-click="answer()">
+                Dodaj
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="cancel()">
+                Odustani
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

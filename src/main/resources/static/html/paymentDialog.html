@@ -1,0 +1,61 @@
+<md-dialog aria-label="Payment Dialog">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Uplata</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="row" flex>
+                <div layout="column" flex style="margin-left: 50px; margin-right: 70px; text-align: center">
+                    <md-input-container>
+                        <label>Dete</label>
+                        <md-select ng-model="tempPayment.child">
+                            <md-option ng-repeat="child in children" ng-value="{{child}}" ng-selected="!isAdd && child.id == tempPayment.child.id">
+                                {{child.name + " " + child.surname}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Mesec</label>
+                        <md-select ng-model="tempPayment.month">
+                            <md-option ng-repeat="month in months" ng-value="{{month.orderOf}}" ng-selected="!isAdd && month.orderOf == tempPayment.month">
+                                {{month.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Godina</label>
+                        <input type="text" ng-model="tempPayment.year">
+                    </md-input-container>
+                </div>
+                <div layout="column" flex style="margin-left: 70px; margin-right: 50px; text-align: center">
+                    <md-input-container>
+                        <label>Način uplate</label>
+                        <md-select ng-model="tempPayment.paymentType">
+                            <md-option ng-repeat="paymentType in paymentTypes" ng-value="paymentType.type" ng-selected="!isAdd && paymentType.type == tempPayment.paymentType">
+                                {{paymentType.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Iznos</label>
+                        <input type="text" ng-model="tempPayment.amount">
+                    </md-input-container>
+                    <md-datepicker ng-model="tempPayment.date" md-placeholder="Datum uplate"></md-datepicker>
+                </div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-primary md-raised" ng-click="answer()">
+                {{isAdd == true ? 'Dodaj' : 'Ažuriraj'}}
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="cancel()">
+                Odustani
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

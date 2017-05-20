@@ -1,0 +1,120 @@
+<md-dialog aria-label="Child Dialog">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{isAdd ? "Novo dete" : "Ažuriraj dete"}}</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="row" flex>
+                <div layout="column" flex style="margin-left: 50px; margin-right: 70px; text-align: center">
+                    <md-input-container>
+                        <label>Ime</label>
+                        <input type="text" ng-model="tempChild.name">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Prezime</label>
+                        <input type="text" ng-model="tempChild.surname">
+                    </md-input-container>
+                    <md-datepicker ng-model="tempChild.dateOfBirth" md-placeholder="Datum rođenja"></md-datepicker>
+                    <md-input-container>
+                        <label>Mesto rođenja</label>
+                        <input type="text" ng-model="tempChild.placeOfBirth">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>JMBG</label>
+                        <input type="text" ng-model="tempChild.jmbg">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Adresa</label>
+                        <input type="text" ng-model="tempChild.address">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Broj telefona</label>
+                        <input type="text" ng-model="tempChild.phoneNumber">
+                    </md-input-container>
+                </div>
+                <div layout="column" flex style="margin-left: 70px; margin-right: 70px; text-align: center">
+                    <md-input-container>
+                        <label>Roditelj/Staratelj</label>
+                        <md-select ng-model="tempChild.parent1">
+                            <md-option ng-repeat="parent in parents1" ng-value="{{parent}}" ng-selected="!isAdd && parent.id == tempChild.parent1.id">
+                                {{parent.name + " " + parent.surname}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Roditelj/Staratelj</label>
+                        <md-select ng-model="tempChild.parent2">
+                            <md-option ng-repeat="parent in parents2" ng-value="{{parent}}" ng-selected="!isAdd && parent.id == tempChild.parent2.id">
+                                {{parent != null ? parent.name + " " + parent.surname : 'Nema'}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Uzrasna grupa</label>
+                        <md-select ng-model="tempChild.ageGroup" ng-change="findSuppGroups()">
+                            <md-option ng-repeat="ageGroup in ageGroups" ng-value="{{ageGroup}}" ng-selected="!isAdd && ageGroup.id == tempChild.ageGroup.id">
+                                {{ageGroup.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Maternji jezik</label>
+                        <md-select ng-model="tempChild.nativeLanguage" ng-change="findSuppGroups()">
+                            <md-option ng-repeat="language in languages" ng-value="{{language}}" ng-selected="!isAdd && language.id == tempChild.nativeLanguage.id">
+                                {{language.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Grupa</label>
+                        <md-select ng-model="tempChild.supportedGroup" ng-disabled="suppGroupDisabled" >
+                            <md-option ng-repeat="suppGroup in supportedGroups" ng-value="{{suppGroup}}" ng-selected="!isAdd && suppGroup.id == tempChild.supportedGroup.id">
+                                {{suppGroup.group.building.name + " " + suppGroup.group.id}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="column" flex style="margin-left: 70px; margin-right: 50px; text-align: center">
+                    <md-input-container>
+                        <label>Broj roditelja</label>
+                        <input type="number" min="0" max="2" ng-model="tempCategory.parentNumber"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Broj članova porodice</label>
+                        <input type="number" min="0" ng-model="tempCategory.familyMembersNumber"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Broj dece u porodice</label>
+                        <input type="number" min="0" ng-model="tempCategory.childrenNumber"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Redosled deteta po rodjenju</label>
+                        <input type="number" min="1" ng-model="tempCategory.orderNumber"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label></label>
+                        <md-checkbox ng-model="tempCategory.specialNeeds" required>
+                            Dete sa posebnim potrebama
+                        </md-checkbox>
+                    </md-input-container>
+                    <p>{{tempChild.category != null ? categoryIsDefault == false ? tempChild.category.id : tempChild.category.id + " (default)" : "Kategorija nije određena!"}}</p>
+                    <md-button class="md-primary md-raised" ng-click="findSuitableCategory()">Odredi kategoriju</md-button>
+                </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-primary md-raised" ng-click="answer()">
+                {{isAdd == true ? 'Dodaj' : 'Ažuriraj'}}
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="cancel()">
+                Odustani
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

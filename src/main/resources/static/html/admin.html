@@ -1,0 +1,97 @@
+<div ng-controller="AdminController" style="height:500px;" ng-cloak>
+    <md-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p style="font-family: 'Stencil'">Kindergartener</p>
+                <span flex></span>
+                <p>Dobrodošao/la, {{user.name}}!</p>
+                <md-button ng-click="logout()">Izloguj se</md-button>
+            </div>
+        </md-toolbar>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Deca">
+                <div layout="column" style="height:500px;" ng-cloak>
+
+                    <section layout="row" flex>
+
+                        <md-sidenav md-is-locked-open="true">
+                            <md-toolbar>
+                                <h2 class="md-toolbar-tools">Upisana deca:</h2>
+                            </md-toolbar>
+                            <md-content layout-padding>
+                                <md-list>
+                                    <md-list-item ng-repeat="child in children">
+                                        <md-button ng-class="child.id == selectedChild.id ? 'md-primary md-raised' : ''" ng-click="switchChild(child)">
+                                            {{child.name + " " + child.surname}}
+                                        </md-button>
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <hr width="100%">
+                                    </md-list-item>
+                                    <md-list-item>
+                                        <md-button class="md-primary md-raised" ng-click="openAddChildDialog($event)">
+                                            Dodaj dete
+                                        </md-button>
+                                    </md-list-item>
+                                </md-list>
+                            </md-content>
+                        </md-sidenav>
+
+                        <md-content flex layout-padding>
+                            <div layout="column" layout-padding layout-wrap layout-fill ng-cloak>
+                                <md-card class="md-whiteframe-12dp" style="width: 100%; height: 100%; padding: 20px">
+                                    <h1>{{selectedChild.name + " " + selectedChild.surname}}</h1>
+                                    <div layout="row" flex>
+                                        <div layout="row" style="padding: 20px" flex>
+                                            <div layout="column" style="margin-right: 20px">
+                                                <p>Datum rođenja:</p>
+                                                <p>Mesto rođenja:</p>
+                                                <p>JMBG:</p>
+                                                <p>Adresa:</p>
+                                                <p>Broj telefona:</p>
+                                            </div>
+                                            <div layout="column" style="margin-left: 20px">
+                                                <p>{{selectedChild.dateOfBirth | date:'dd.MM.yyyy.'}}</p>
+                                                <p>{{selectedChild.placeOfBirth}}</p>
+                                                <p>{{selectedChild.jmbg}}</p>
+                                                <p>{{selectedChild.address}}</p>
+                                                <p>{{selectedChild.phoneNumber}}</p>
+                                            </div>
+                                        </div>
+                                        <div layout="row" style="padding: 20px" flex>
+                                            <div layout="column" style="margin-right: 20px">
+                                                <p>{{selectedChild.category.parentNumber > 0 ? "Roditelj:" : "Staratelj:"}}</p>
+                                                <p ng-show="selectedChild.parent2 != null">{{selectedChild.category.parentNumber > 1 ? "Roditelj:" : "Staratelj:"}}</p>
+                                                <p>Starosna grupa:</p>
+                                                <p>Maternji jezik:</p>
+                                                <p>Dodeljena grupa:</p>
+                                                <p>Kategorija:</p>
+                                            </div>
+                                            <div layout="column" style="margin-left: 20px">
+                                                <p>{{selectedChild.parent1.name + " " + selectedChild.parent1.surname}}</p>
+                                                <p ng-show="selectedChild.parent2 != null">{{selectedChild.parent2.name + " " + selectedChild.parent2.surname}}</p>
+                                                <p>{{selectedChild.ageGroup.name}}</p>
+                                                <p>{{selectedChild.nativeLanguage.name}}</p>
+                                                <p>{{selectedChild.supportedGroup != null ? selectedChild.supportedGroup.group.building.name + " " + selectedChild.supportedGroup.group.id : "Nedodeljena"}}</p>
+                                                <p>{{selectedChild.category.id}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <md-card-actions layout="row" layout-align="end center">
+                                        <md-button class="md-primary md-raised" ng-click="openUpdateChildDialog($event)">Ažuriraj</md-button>
+                                        <md-button class="md-primary md-raised" ng-click="removeChild()">Obriši</md-button>
+                                    </md-card-actions>
+                                </md-card>
+
+                            </div>
+                            <div flex></div>
+                        </md-content>
+
+                    </section>
+                </div>
+            </md-tab>
+        </md-tabs>
+
+    </md-content>
+</div>

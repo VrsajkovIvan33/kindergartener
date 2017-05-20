@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html ng-app="kindergartenerApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Kindergartener</title>
+
+    <script src='/webjars/jquery/2.1.1/jquery.js'></script>
+    <script src='/webjars/jquery/2.1.1/jquery.min.js'></script>
+
+    <script src='/webjars/angularjs/angular.js'></script>
+    <script src='/webjars/angularjs/angular-animate.js'></script>
+    <script src='/webjars/angularjs/angular-animate.min.js'></script>
+    <script src='/webjars/angularjs/angular-route.js'></script>
+    <script src='/webjars/angularjs/angular-aria.min.js'></script>
+    <script src='/webjars/angularjs/angular-messages.min.js'></script>
+
+    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">-->
+
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>-->
+
+    <link rel="stylesheet" href="/webjars/angular-material/angular-material.min.css">
+
+    <script src="/webjars/angular-material/angular-material.min.js"></script>
+
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.js"></script>-->
+    <script src="ngstorage/ngStorage.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/routes.js"></script>
+
+    <!--Services-->
+    <script src="js/services/loginFactory.js"></script>
+    <script src="js/services/childFactory.js"></script>
+    <script src="js/services/userFactory.js"></script>
+    <script src="js/services/categoryFactory.js"></script>
+    <script src="js/services/ageGroupFactory.js"></script>
+    <script src="js/services/supportedGroupFactory.js"></script>
+    <script src="js/services/teacherFactory.js"></script>
+    <script src="js/services/attendanceFactory.js"></script>
+    <script src="js/services/justificationFactory.js"></script>
+    <script src="js/services/languageFactory.js"></script>
+    <script src="js/services/paymentFactory.js"></script>
+    <script src="js/services/debitFactory.js"></script>
+
+    <!--Controllers-->
+    <script src="js/controllers/loginController.js"></script>
+    <script src="js/controllers/adminController.js"></script>
+    <script src="js/controllers/teacherController.js"></script>
+    <script src="js/controllers/accountantController.js"></script>
+
+    <!--Calendar-->
+    <link rel="stylesheet" href="fullcalendar/fullcalendar.css"/>
+    <!-- jquery, moment, and angular have to get included before fullcalendar -->
+    <script type="text/javascript" src="fullcalendar/moment.min.js"></script>
+    <script type="text/javascript" src="fullcalendar/calendar.js"></script>
+    <script type="text/javascript" src="fullcalendar/fullcalendar.min.js"></script>
+
+    <script type="text/javascript" src="fullcalendar/gcal.js"></script>
+
+    <style>
+        div.flex_container {
+            display: flex;                  /* establish flex container */
+            flex-direction: row;            /* default value; can be omitted */
+            flex-wrap: nowrap;              /* default value; can be omitted */
+            justify-content: space-between; /* switched from default (flex-start, see below) */
+        }
+
+        .waspresent,
+        .waspresent div,
+        .waspresent span {
+            background-color: gray; /* background color */
+            border-color: white;     /* border color */
+            border-width: 3px;
+            color: white;           /* text color */
+        }
+
+        .waspresent-selected,
+        .waspresent-selected div,
+        .waspresent-selected span {
+            background-color: gray; /* background color */
+            border-color: black;     /* border color */
+            border-width: 3px;
+            color: white;           /* text color */
+        }
+
+        .wasntpresent,
+        .wasntpresent div,
+        .wasntpresent span {
+            background-color: red; /* background color */
+            border-color: white;     /* border color */
+            border-width: 3px;
+            color: white;           /* text color */
+        }
+
+        .wasntpresent-selected,
+        .wasntpresent-selected div,
+        .wasntpresent-selected span {
+            background-color: red; /* background color */
+            border-color: black;     /* border color */
+            border-width: 3px;
+            color: white;           /* text color */
+        }
+
+        .justified,
+        .justified div,
+        .justified span {
+            background-color: blue; /* background color */
+            border-color: white;     /* border color */
+            border-width: 3px;
+            color: white;           /* text color */
+        }
+
+        .justified-selected,
+        .justified div,
+        .justified span {
+            background-color: blue; /* background color */
+            border-color: black;     /* border color */
+            border-width: 3px;
+            color: white;           /* text color */
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-view></div>
+</body>
+</html>

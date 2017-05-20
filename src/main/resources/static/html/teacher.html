@@ -1,0 +1,81 @@
+<div ng-controller="TeacherController" style="height:500px;" ng-cloak>
+    <md-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p style="font-family: 'Stencil'">Kindergartener</p>
+                <span flex></span>
+                <p>Dobrodošao/la, {{user.name}}!</p>
+                <md-button ng-click="logout()">Izloguj se</md-button>
+            </div>
+        </md-toolbar>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Unos prisustva">
+                <div layout="column" style="height: 100%;" ng-cloak>
+                    <md-content flex layout-padding>
+                        <div layout="column" layout-padding layout-wrap layout-fill ng-cloak>
+                            <md-card class="md-whiteframe-12dp" style="width: 100%; height: 100%; padding: 50px">
+                                <h1>{{"Grupa " + user.group.building.name + " " + user.group.id}}</h1>
+                                <md-datepicker ng-model="dateOfAttendance" ng-change="dateChanged()"></md-datepicker>
+                                <p>{{alreadyMarked == true ? "Postoji evidencija o dolascima za izabrani datum" : "Ne postoji evidencija o dolascima za izabrani datum"}}</p>
+                                <div layout="column" flex>
+                                        <md-input-container class="md-block" ng-repeat="attendance in attendances">
+                                            <md-checkbox ng-model="attendance.wasPresent" >
+                                                {{attendance.child.name + " " + attendance.child.surname}}
+                                            </md-checkbox>
+                                        </md-input-container>
+                                        <div layout="row" flex>
+                                            <md-button class="md-primary md-raised" ng-click="setAllWerePresents(true)">Označi sve</md-button>
+                                            <md-button class="md-primary md-raised" ng-click="setAllWerePresents(false)">Poništi označavanja</md-button>
+                                        </div>
+                                </div>
+                                <md-card-actions layout="row" layout-align="end center">
+                                    <md-button class="md-primary md-raised" ng-show="!alreadyMarked" ng-click="addAttendances()">Dodaj evidenciju</md-button>
+                                    <md-button class="md-primary md-raised" ng-show="alreadyMarked" ng-click="updateAttendances()">Ažuriraj evidenciju</md-button>
+                                </md-card-actions>
+                            </md-card>
+                        </div>
+                        <div flex></div>
+                    </md-content>
+                </div>
+            </md-tab>
+
+            <md-tab label="Evidencija prisustva" ng-click="initCalendar()">
+                <div layout="column" style="height:100%;" ng-cloak>
+
+                    <section layout="row" flex>
+
+                        <md-sidenav md-is-locked-open="true">
+                            <md-toolbar>
+                                <h2 class="md-toolbar-tools">{{"Deca iz grupe " + user.group.building.name + " " + user.group.id}}</h2>
+                            </md-toolbar>
+                            <md-content layout-padding>
+                                <md-list>
+                                    <md-list-item ng-repeat="child in children">
+                                        <md-button ng-class="child.id == selectedChild.id ? 'md-primary md-raised' : ''" ng-click="switchChild(child)">
+                                            {{child.name + " " + child.surname}}
+                                        </md-button>
+                                    </md-list-item>
+                                </md-list>
+                            </md-content>
+                        </md-sidenav>
+
+                        <md-content flex layout-padding>
+                            <div layout="column" layout-padding layout-wrap layout-fill ng-cloak style="width: 100%; height: 100%; padding: 20px">
+                                <div ui-calendar="uiConfig.calendar" calendar="myCalendar"></div>
+                                <div layout="row" flex>
+                                    <span flex></span>
+                                    <md-button class="md-primary md-raised" ng-disabled="selectedAttendances.length == 0" ng-click="addJustification($event)">Dodaj opravdanje</md-button>
+                                    <md-button class="md-primary md-raised" ng-disabled="selectedAttendances.length == 0" ng-click="removeJustification()">Ukloni opravdanje</md-button>
+                                </div>
+                            </div>
+                            <div flex></div>
+                        </md-content>
+
+                    </section>
+                </div>
+            </md-tab>
+        </md-tabs>
+
+    </md-content>
+</div>

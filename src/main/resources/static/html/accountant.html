@@ -1,0 +1,179 @@
+<div ng-controller="AccountantController" style="height:500px;" ng-cloak>
+    <md-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p style="font-family: 'Stencil'">Kindergartener</p>
+                <span flex></span>
+                <p>Dobrodošao/la, {{user.name}}!</p>
+                <md-button ng-click="logout()">Izloguj se</md-button>
+            </div>
+        </md-toolbar>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="Uplate">
+
+                    <div layout="column" ng-cloak>
+
+                        <section layout="row" flex>
+
+                            <md-sidenav md-is-locked-open="true">
+                                <md-toolbar>
+                                    <h2 class="md-toolbar-tools">Uplate</h2>
+                                </md-toolbar>
+                                <md-content layout-padding>
+                                    <md-list>
+                                        <md-list-item ng-repeat="payment in payments">
+                                            <md-button ng-class="payment.id == selectedPayment.id ? 'md-primary md-raised' : ''" ng-click="switchPayment(payment)">
+                                                {{payment.child.name + " " + payment.child.surname + " " + payment.id}}
+                                            </md-button>
+                                        </md-list-item>
+                                        <md-list-item>
+                                            <hr width="100%">
+                                        </md-list-item>
+                                        <md-list-item>
+                                            <md-button class="md-primary md-raised" ng-click="openAddPaymentDialog($event)">
+                                                Dodaj uplatu
+                                            </md-button>
+                                        </md-list-item>
+                                    </md-list>
+                                </md-content>
+                            </md-sidenav>
+
+                            <md-content flex layout-padding>
+                                <div layout="row" layout-padding layout-wrap layout-fill ng-cloak>
+                                    <div layout="row" flex>
+                                        <md-input-container style="margin-left: 20px; margin-right: 10px; width: 200px">
+                                            <label>Dete</label>
+                                            <md-select ng-model="selectedChildForPayments">
+                                                <md-option ng-repeat="child in childrenForPayments" ng-value="{{child}}">
+                                                    {{child != undefined ? child.name + " " + child.surname : 'Sva deca'}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container style="margin-left: 10px; margin-right: 10px; width: 120px">
+                                            <label>Mesec</label>
+                                            <md-select ng-model="selectedMonthForPayments">
+                                                <md-option ng-repeat="month in monthsForPayments" ng-value="{{month.orderOf}}" ng-selected="month.orderOf == selectedMonthForPayments">
+                                                    {{month.name}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+                                        <md-input-container style="margin-left: 10px; margin-right: 20px">
+                                            <label>Godina</label>
+                                            <input type="text" ng-model="selectedYearForPayments">
+                                        </md-input-container>
+                                        <md-button class="md-primary md-raised" ng-click="getPayments()" style="height: 40px">Filtriraj</md-button>
+                                    </div>
+                                    <md-card class="md-whiteframe-12dp" style="width: 100%; height: 400px; padding: 20px">
+                                        <h1>{{selectedPayment.child.name + " " + selectedPayment.child.surname + " " + selectedPayment.id}}</h1>
+                                        <div layout="row" flex style="padding: 20px">
+                                            <div layout="column" style="margin-right: 20px">
+                                                <p>Mesec:</p>
+                                                <p>Godina:</p>
+                                                <p>Iznos:</p>
+                                                <p>Način plaćanja:</p>
+                                                <p>Datum uplate:</p>
+                                            </div>
+                                            <div layout="column" style="margin-left: 20px">
+                                                <p>{{getMonthName(selectedPayment.month)}}</p>
+                                                <p>{{selectedPayment.year}}</p>
+                                                <p>{{selectedPayment.amount}}</p>
+                                                <p>{{getPaymentTypeName(selectedPayment.paymentType)}}</p>
+                                                <p>{{selectedPayment.date | date:'dd.MM.yyyy.'}}</p>
+                                            </div>
+                                        </div>
+                                        <md-card-actions layout="row" layout-align="end center">
+                                            <md-button class="md-primary md-raised" ng-disabled="selectedPayment == undefined" ng-click="openUpdatePaymentDialog($event)">Ažuriraj</md-button>
+                                            <md-button class="md-primary md-raised" ng-disabled="selectedPayment == undefined" ng-click="removePayment()">Obriši</md-button>
+                                        </md-card-actions>
+                                    </md-card>
+
+                                </div>
+                                <div flex></div>
+                            </md-content>
+
+                        </section>
+                    </div>
+
+
+            </md-tab>
+
+            <md-tab label="Zaduženja" ng-click="getTotalDebit()">
+
+                <div layout="column" ng-cloak>
+
+                    <section layout="row" flex>
+
+                        <md-sidenav md-is-locked-open="true">
+                            <md-toolbar>
+                                <h2 class="md-toolbar-tools">Meseci</h2>
+                            </md-toolbar>
+                            <md-content layout-padding>
+                                <md-list>
+                                    <md-list-item ng-repeat="debit in totalDebit.debits">
+                                        <md-button ng-class="debit.month == selectedMonthlyDebit.month ? 'md-primary md-raised' : ''" ng-click="switchPayment(payment)">
+                                            {{getMonthName(debit.month)}}
+                                        </md-button>
+                                    </md-list-item>
+                                </md-list>
+                            </md-content>
+                        </md-sidenav>
+
+                        <md-content flex layout-padding>
+                            <div layout="row" layout-padding layout-wrap layout-fill ng-cloak>
+                                <div layout="row" flex>
+                                    <md-input-container style="margin-left: 20px; margin-right: 10px; width: 200px">
+                                        <label>Dete</label>
+                                        <md-select ng-model="selectedChildForDebit">
+                                            <md-option ng-repeat="child in childrenForDebit" ng-value="{{child}}" ng-selected="child.id == selectedChildForDebit.id">
+                                                {{child.name + " " + child.surname}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                    <md-input-container style="margin-left: 10px; margin-right: 20px">
+                                        <label>Godina</label>
+                                        <input type="text" ng-model="selectedYearForDebit">
+                                    </md-input-container>
+                                    <md-button class="md-primary md-raised" ng-click="getTotalDebit()" style="height: 40px">Prikaži</md-button>
+                                </div>
+                                <md-card class="md-whiteframe-12dp" style="width: 100%; height: 500px; padding: 20px">
+                                    <h1>{{selectedMonthlyDebit == undefined ? totalDebit.childName + " " + totalDebit.childSurname : totalDebit.childName + " " + totalDebit.childSurname + " za " + getMonthName(selectedMonthlyDebit.month)}}</h1>
+                                    <div layout="row" flex style="padding: 20px">
+                                        <div layout="column" style="margin-right: 20px">
+                                            <p>Zaduženje za mesec:</p>
+                                            <p>Preneseno zaduženje:</p>
+                                            <p>Uplaćeno za mesec:</p>
+                                            <p>Preneseno uplaćeno:</p>
+                                        </div>
+                                        <div layout="column" style="margin-left: 20px; margin-right: 40px">
+                                            <p>{{selectedMonthlyDebit.debit}}</p>
+                                            <p>{{selectedMonthlyDebit.carriedDebit}}</p>
+                                            <p>{{selectedMonthlyDebit.paid}}</p>
+                                            <p>{{selectedMonthlyDebit.carriedPaid}}</p>
+                                        </div>
+                                        <div layout="column" style="margin-left: 40px; margin-right: 20px">
+                                            <p>Ukupno zaduženje:</p>
+                                            <p>Ukupno uplaćeno:</p>
+                                            <p>Trenutno stanje:</p>
+                                        </div>
+                                        <div layout="column" style="margin-left: 20px">
+                                            <p>{{totalDebit.totalDebit}}</p>
+                                            <p>{{totalDebit.totalPaid}}</p>
+                                            <p>{{totalDebit.totalDebit - totalDebit.totalPaid}}</p>
+                                        </div>
+                                    </div>
+                                </md-card>
+
+                            </div>
+                            <div flex></div>
+                        </md-content>
+
+                    </section>
+                </div>
+
+
+            </md-tab>
+        </md-tabs>
+
+    </md-content>
+</div>
